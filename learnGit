@@ -1,0 +1,79 @@
+Git Notes:
+-----------
+- Created by Linus Torvalds
+- only 1 .git dir for all project, so git status gives the status of the project instead of the directory you are in
+- git add puts the file in staging area first and then later  we can commit it
+- git add -p file, to select hunks to commit
+- do git add for add, modification , delete .., not just for adding new files
+- git commit -a to combine add and commit , commit everything till now
+
+- Magic with hashes : 
+	There is a unique SHA1 has associated with each commit, which is inturn a hash of the directories and files beneath it like a tree. So every commit has a unique hash and different commits/version can be imagined as a linked list of hashes. So creating a branch or a TAG is as simple as creating a text file with the hash value of the current commit. (and that hash inturn will point to state of files then)
+
+- Distributed version control workflow
+
+	- There is a remote git repo say in git hub (with a url - github.com/blah
+	- git clone - creates the whole history also so that you can work offline
+	- git checkout - builds the index to get working copy
+	- modify the files
+	- git add & commit
+	- git push
+
+- git stash
+	- Good branch 
+	- working on some feature
+	- git stash - moves the current work to stash in local system.
+	- fix the bug in the prestine state
+	- git pop stash
+	- continue the old work
+
+- git stores a version of every file for each commit state and not just deltas. Deltas becomes slower with time. Now to avoid much increase in space git compresses all the versions together to have big benefits in space. (in a way deltas are considered by compression)
+
+- git log -S "search" , searches through logs, files and even delete code for a particular search term.
+	- git grep 'text' HEAD^^^  [ 3 versions back ]
+
+- git bisect run 'mvn test or other test suite' to see which version the code was fine and when it broke
+
+- git log --simplify-by-decoration --graph --pretty=oneline --abbrev-commit  , prettier log display
+
+- pushing to origin repo
+	- git remote add origin https://github.com/username/Hello-World.git - creates an origin pointing to your git repo
+	- git push origin master  -> pushes to master branch of origin
+	[by default an origin is created pointing to the master from where the repo was cloned]
+
+- Fork and Clone model
+	- You want to work on a repo say leveldb
+	- firstly you fork it in github , so it is in your github
+	- Now clone it locally , github clone yourForkedRepoUrl/blah.git
+	- work on it locally and push to master , ie; your fork
+	Now this doesn't get the changes from the main repository
+		- so add another remote called upstream pointing to that
+		- git remote add upstream https://github.com/jayadev/remoteRepoLink.git
+		- git fetch upstream to fetch the latest changes and put it in a branch called upstream
+		- git merge upstream/master to merge the changes
+
+- Pull vs fetch : pull merges the changes from remote to your current working dir.
+- Branches :
+	- git branch <branch name> , git checkout branch to switch to that branch
+	- 1 step, git checkout -b <branch name> <remove/branchname> 
+	- git branch -a -> branches view
+	- git show-branch -all ->ascii art tree branches and merge status 
+	- git ls-remote origin -> list remote branches
+	- git branch (local) , -a for all, -r for remote 
+
+- Rebase
+	- Move the base of your branch based on the master, so if there are new fixes in the master it will takes those before adding yours.
+	
+- Squash
+	- squash your merges to a bigger merge for merging with origin
+
+- git cherry-pick #hash : picks just the last changes to 
+
+- git diff : shows only ustaged diffs
+	- git diff --staged , shows the staged changes
+	- git diff -w , supress white space differences
+	- git diff --word-diff , show word level differences
+	- git diff --color-words , colors word changes instad of entire lines
+
+- git log (-p for display of patches)
+	
